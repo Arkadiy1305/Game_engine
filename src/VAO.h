@@ -11,10 +11,12 @@ public:
 	void bind() { glBindVertexArray(m_ID); }
 	void unbind() { glBindVertexArray(0); }
 	void loadVBO(GLsizeiptr size, GLfloat* data);
+	void loadEBO(GLsizeiptr size, unsigned int* indicies);
 
 private:
 	unsigned int m_ID{ 0 };
 	std::vector<unsigned int> VBOvector{};
+	unsigned int m_EBO{ 0 };
 };
 
 VAO::VAO()
@@ -38,5 +40,14 @@ inline void VAO::loadVBO(GLsizeiptr size, GLfloat* data)
 	glEnableVertexAttribArray(VBOvector.size());
 	VBOvector.push_back(VBO);
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	unbind();
+}
+
+inline void VAO::loadEBO(GLsizeiptr size, unsigned int* indicies)
+{
+	bind();
+	glGenBuffers(1, &m_EBO);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indicies, GL_STATIC_DRAW);
 	unbind();
 }

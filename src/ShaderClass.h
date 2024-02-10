@@ -5,6 +5,8 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 class ShaderClass
 {
@@ -13,6 +15,7 @@ public:
 	ShaderClass(const char* vertexPath, const char* fragmentPath);
 	~ShaderClass();
 	void activate();
+	void setMat4(const char* name, const glm::mat4& value);
 
 private:
 	unsigned int m_ID{ 0 };
@@ -47,6 +50,12 @@ ShaderClass::~ShaderClass()
 inline void ShaderClass::activate()
 {
 	glUseProgram(m_ID);
+}
+
+inline void ShaderClass::setMat4(const char* name, const glm::mat4& value)
+{
+	activate();
+	glUniformMatrix4fv(glGetUniformLocation(m_ID, name), 1, GL_FALSE, glm::value_ptr(value));
 }
 
 inline bool ShaderClass::checkCompileErrors(unsigned int shader, const std::string& type)

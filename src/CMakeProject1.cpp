@@ -13,23 +13,24 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 }
 
 float verticies[] = {
-    -1.f, -1.f,
-    -1.f, 1.f,
-    1.f, 1.f,
-
-    1.f, 1.f,
-    1.f, -1.f,
-    -1.f, -1.f,
+    -100.f, -100.f,
+    -100.f, 100.f,
+    100.f, 100.f,
+    100.f, -100.f,
+    
 };
 
 float color[] = {
     1.f, 0.f,
     0.f, 1.f,
     1.f, 0.f,
-
-    1.f, 0.f,
     0.f, 1.f,
-    1.f, 0.f,
+    
+};
+
+unsigned int indicies[] = {
+    0, 1, 2,
+    2, 3, 0,
 };
 
 int main(void)
@@ -73,7 +74,13 @@ int main(void)
     VAO vao{};
     vao.loadVBO(sizeof(verticies), verticies);
     vao.loadVBO(sizeof(color), color);
+    vao.loadEBO(sizeof(indicies), indicies);
     
+    auto projection = glm::ortho(0.f, static_cast<float>(mode->width), 0.f, static_cast<float>(mode->height));
+    shaderProgramm.setMat4("projection", projection);
+
+    auto view{ glm::mat4{1.f} };
+    shaderProgramm.setMat4("view", view);
 
     glClearColor(0.f, 0.f, 0.f, 1.f);
     /*
@@ -104,7 +111,12 @@ int main(void)
 
         shaderProgramm.activate();
         vao.bind();
-        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+        auto model{ glm::mat4{1.f} };
+        model = glm::translate(model, glm::vec3{ 200.f, 200.f, 0.f });
+        model = glm::rotate(model, 1.f, glm::vec3(0.f, 0.f, 1.f));
+        shaderProgramm.setMat4("model", model);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
