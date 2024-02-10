@@ -9,5 +9,7 @@
 #include "VAO.h"
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
-
+#include <oalpp/sound.hpp>
+#include <oalpp/sound_context.hpp>
+#include <oalpp/sound_data.hpp>
 // TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.

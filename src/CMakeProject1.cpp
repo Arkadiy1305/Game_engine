@@ -35,8 +35,12 @@ unsigned int indicies[] = {
 
 int main(void)
 {
-    auto in = glm::vec2{ 1.f, 2.f };
-    std::cout << in.x << ' ' << in.y << '\n';
+    oalpp::SoundContext ctx;
+    oalpp::SoundDataBuilder builder;
+    builder.fromFile("./resources/sound/test2.mp3");
+    oalpp::SoundData buffer = builder.create();
+    oalpp::Sound snd { buffer };
+    snd.play();
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -106,6 +110,9 @@ int main(void)
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        if (snd.isPlaying()) {
+            snd.update();
+        }
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
