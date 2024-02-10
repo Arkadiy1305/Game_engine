@@ -34,6 +34,8 @@ float color[] = {
 
 int main(void)
 {
+    auto in = glm::vec2{ 1.f, 2.f };
+    std::cout << in.x << ' ' << in.y << '\n';
     GLFWwindow* window;
 
     /* Initialize the library */
