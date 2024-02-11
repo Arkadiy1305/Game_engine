@@ -1,13 +1,18 @@
 ﻿# CMakeList.txt: проект CMake для CMakeProject1; включите исходный код и определения,
 # укажите здесь логику для конкретного проекта.
 #
-cmake_minimum_required (VERSION 3.24)
+cmake_minimum_required (VERSION 3.28)
 
 set(PROJECT_NAME "MY_PROJECT")
 project (${PROJECT_NAME})
 
-set(CMAKE_CXX_STANDART 20)
-set(CXX_STANDART 20)
+if (MSVC AND CMAKE_CXX_COMPILER_VERSION VERSION_GREATER_EQUAL 19.29.30129 AND CMAKE_VERSION VERSION_GREATER 3.20.3)
+    # this change happened in CMake 3.20.4
+    set(CMAKE_CXX_STANDARD 23) # /std:c++latest - unlocks the non stable cpp20 features. For new 16.11 versions
+else ()
+    set(CMAKE_CXX_STANDARD 20) # /std:c++latest for msvc and -std=c++20 for everyone else.
+endif ()
+
 
 set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
 set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)

@@ -37,7 +37,7 @@ int main(void)
 {
     oalpp::SoundContext ctx;
     oalpp::SoundDataBuilder builder;
-    builder.fromFile("./resources/sound/test2.mp3");
+    builder.fromFile("./resources/sound/Swords_battle.mp3");
     oalpp::SoundData buffer = builder.create();
     oalpp::Sound snd { buffer };
     snd.play();
