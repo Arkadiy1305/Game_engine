@@ -28,7 +28,7 @@ set(OALPP_ENABLE_INTEGRATION_TESTS OFF CACHE BOOL "" FORCE)
 
 
 # Добавьте источник в исполняемый файл этого проекта.
-add_executable (${PROJECT_NAME} "src/CMakeProject1.cpp" "src/CMakeProject1.h"  "src/ShaderClass.h" "src/VAO.h" "src/TextRender.h")
+add_executable (${PROJECT_NAME} "src/CMakeProject1.cpp" "src/CMakeProject1.h"  "src/ShaderClass.h" "src/VAO.h" "src/TextRender.h" "src/GameScreen.h")
 
 add_subdirectory(external/glfw)
 target_link_libraries(${PROJECT_NAME} glfw)

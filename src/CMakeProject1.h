@@ -13,4 +13,5 @@
 #include <oalpp/sound_context.hpp>
 #include <oalpp/sound_data.hpp>
 #include "TextRender.h"
+#include "GameScreen.h"
 // TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.
