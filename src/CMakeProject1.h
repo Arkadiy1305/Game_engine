@@ -12,4 +12,5 @@
 #include <oalpp/sound.hpp>
 #include <oalpp/sound_context.hpp>
 #include <oalpp/sound_data.hpp>
+#include "TextRender.h"
 // TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.

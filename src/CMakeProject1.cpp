@@ -62,6 +62,8 @@ int main(void)
         return -1;
     }
 
+   
+
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
     
@@ -70,19 +72,23 @@ int main(void)
         glfwTerminate();
         return -2;
     }
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     std::cout << glGetString(GL_VERSION) << '\n';
     glfwSetKeyCallback(window, key_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glViewport(0, 0, mode->width, mode->height);
     ShaderClass shaderProgramm("./resources/shaders/base.vert", "./resources/shaders/base.frag");
     VAO vao{};
-    vao.loadVBO(sizeof(verticies), verticies);
-    vao.loadVBO(sizeof(color), color);
+    vao.loadVBO(sizeof(verticies), verticies, 2, GL_STATIC_DRAW);
+    vao.loadVBO(sizeof(color), color, 2, GL_STATIC_DRAW);
     vao.loadEBO(sizeof(indicies), indicies);
     
     auto projection = glm::ortho(0.f, static_cast<float>(mode->width), 0.f, static_cast<float>(mode->height));
     shaderProgramm.setMat4("projection", projection);
-
+    TextRender text(projection, "./resources/fonts/astron_boy_italic.ttf");
     auto view{ glm::mat4{1.f} };
     shaderProgramm.setMat4("view", view);
 
@@ -124,7 +130,26 @@ int main(void)
         model = glm::rotate(model, 1.f, glm::vec3(0.f, 0.f, 1.f));
         shaderProgramm.setMat4("model", model);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
+        auto model2{ glm::mat4{1.f} };
+        model2 = glm::translate(model2, glm::vec3{ 1700.f, 200.f, 0.f });
+        model2 = glm::rotate(model2, 1.f, glm::vec3(0.f, 0.f, 1.f));
+        shaderProgramm.setMat4("model", model2);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
+        auto model3{ glm::mat4{1.f} };
+        model3 = glm::translate(model3, glm::vec3{ 200.f, 900.f, 0.f });
+        model3 = glm::rotate(model3, 1.f, glm::vec3(0.f, 0.f, 1.f));
+        shaderProgramm.setMat4("model", model3);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        
+        auto model4{ glm::mat4{1.f} };
+        model4 = glm::translate(model4, glm::vec3 { 1700.f, 900.f, 0.f });
+        model4 = glm::rotate(model4, 1.f, glm::vec3(0.f, 0.f, 1.f));
+        shaderProgramm.setMat4("model", model4);
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+        text.render("HELLO", 500, 500, 5, glm::vec3 { 1.f, 1.f, 1.f });
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
 

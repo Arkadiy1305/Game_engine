@@ -16,6 +16,7 @@ public:
 	~ShaderClass();
 	void activate();
 	void setMat4(const char* name, const glm::mat4& value);
+	void setVec3(const char* name, const glm::vec3& value);
 
 private:
 	unsigned int m_ID{ 0 };
@@ -56,6 +57,11 @@ inline void ShaderClass::setMat4(const char* name, const glm::mat4& value)
 {
 	activate();
 	glUniformMatrix4fv(glGetUniformLocation(m_ID, name), 1, GL_FALSE, glm::value_ptr(value));
+}
+
+inline void ShaderClass::setVec3(char const* name, glm::vec3 const& value) { 
+	activate();
+    glUniform3f(glGetUniformLocation(m_ID, name), value.x, value.y, value.z);
 }
 
 inline bool ShaderClass::checkCompileErrors(unsigned int shader, const std::string& type)

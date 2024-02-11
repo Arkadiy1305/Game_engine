@@ -7,3 +7,6 @@
 [submodule "external/oalpp"]
 	path = external/oalpp
 	url = https://github.com/Laguna1989/OpenALpp.git
+[submodule "external/freetype"]
+	path = external/freetype
+	url = https://github.com/freetype/freetype.git
