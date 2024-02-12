@@ -58,10 +58,15 @@ int main(void)
     glfwSetKeyCallback(window, key_callback);
     glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
     glViewport(0, 0, mode->width, mode->height);
+    ShaderClass rect_shader("./resources/shaders/base.vert", "./resources/shaders/base.frag");
     
     
     const auto projection = glm::ortho(0.f, static_cast<float>(mode->width), 0.f, static_cast<float>(mode->height));
-    GameScreen g_scr(projection, mode);
+    rect_shader.setMat4("projection", projection);
+    const glm::mat4 view { 1.f };
+    rect_shader.setMat4("view", view);
+    GameScreen g_scr(projection, mode, rect_shader, glm::ivec2{50, 50});
+    
 
     glClearColor(1.f, 1.f, 1.f, 1.f);
     
@@ -75,6 +80,7 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT);
 
         g_scr.render();
+        
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);

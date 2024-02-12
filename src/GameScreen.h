@@ -5,32 +5,39 @@
 #include "VAO.h"
 #include "ShaderClass.h"
 #include "TextRender.h"
+#include "Rectangle.h"
+#include <array>
 
 
 class GameScreen {
 public:
     GameScreen() = delete;
-    GameScreen(const glm::mat4& projection, const GLFWvidmode* mode);
+    GameScreen(const glm::mat4& projection, const GLFWvidmode* mode, ShaderClass& shader, const glm::ivec2& split);
     ~GameScreen();
     void update();
     void render();
 
 private:
     TextRender m_textRender;
-    ShaderClass m_shader;
+    ShaderClass& m_shader;
     VAO m_vao;
     const glm::vec3 m_color { glm::vec3 { 0.2f, 0.2f, 0.2f } };
     const double m_left_side_info_panel;
     const double m_top_side_info_panel;
+    Rectangle m_rect;
+    const glm::ivec2 m_split;
+    std::array<std::array<bool, 50>, 50> m_arr;
 };
 
-GameScreen::GameScreen(glm::mat4 const& projection, const GLFWvidmode* mode)
-    : m_shader("./resources/shaders/base.vert", "./resources/shaders/base.frag")
+GameScreen::GameScreen(glm::mat4 const& projection, GLFWvidmode const* mode, ShaderClass& shader, const glm::ivec2& split)
+    : m_shader(shader)
     , m_textRender(projection, "./resources/fonts/astron_boy_italic.ttf")
     , m_left_side_info_panel {mode->height * 1.4}
     , m_top_side_info_panel { mode->height * 1.f }
+    , m_rect { glm::vec2 {m_left_side_info_panel / split.x, m_top_side_info_panel / split.y}, shader }
+    , m_split {split}
 {
-    m_shader.setMat4("projection", projection);
+    
     float vertices[] = {
         m_left_side_info_panel, 0.f,
         mode->width, 0.f,
@@ -43,6 +50,11 @@ GameScreen::GameScreen(glm::mat4 const& projection, const GLFWvidmode* mode)
     };
     m_vao.loadVBO(sizeof(vertices), vertices, 2, GL_STATIC_DRAW);
     m_vao.loadEBO(sizeof(indicies), indicies);
+    for (auto& arr : m_arr) {
+        for (auto& value: arr) {
+            value = static_cast<bool>(rand() % 2);
+        }
+    }
 }
 
 GameScreen::~GameScreen() { }
@@ -51,14 +63,20 @@ inline void GameScreen::update() { }
 
 inline void GameScreen::render() 
 {
+    for (size_t col = 0; col < 50; col++) {
+        for (size_t row = 0; row < 50; row++) { 
+            if (m_arr[col][row])
+            {
+                m_rect.render(glm::vec2 { row * (m_left_side_info_panel / m_split.x), col * (m_top_side_info_panel / m_split.y)}, glm::vec3{0.f, 0.f, 0.f});
+            }
+        }       
+    }
     m_shader.activate();
     m_vao.bind();
     m_shader.setVec3("Color", m_color);
-    auto view = glm::mat4 { 1.f };
-    m_shader.setMat4("view", view);
     auto model = glm::mat4 { 1.f };
     m_shader.setMat4("model", model);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    m_textRender.render("info text", m_left_side_info_panel + 10, m_top_side_info_panel / 2, 2.f, glm::vec3{0.f, 1.f, 0.f});
+    m_textRender.render("Count rectangle: 25", m_left_side_info_panel + 10, m_top_side_info_panel / 2, 1.f, glm::vec3{0.f, 1.f, 0.f});
 }
