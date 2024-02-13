@@ -65,22 +65,29 @@ int main(void)
     rect_shader.setMat4("projection", projection);
     const glm::mat4 view { 1.f };
     rect_shader.setMat4("view", view);
-    GameScreen g_scr(projection, mode, rect_shader, glm::ivec2{250, 250});
+    GameScreen g_scr(projection, mode, rect_shader, glm::ivec2{300, 300});
     
 
     glClearColor(1.f, 1.f, 1.f, 1.f);
-    
+    float last_time { 0.f };
+    float delta_time { 0.f };
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        auto now = glfwGetTime();
+        delta_time = now - last_time;
         if (snd.isPlaying()) {
             snd.update();
         }
         /* Render here */
+        if (delta_time > 0.02f) {
+            last_time = now;
+            
+            g_scr.update();
+            
+        }
         glClear(GL_COLOR_BUFFER_BIT);
-
         g_scr.render();
-        
         
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
