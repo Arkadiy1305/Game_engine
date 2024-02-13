@@ -12,14 +12,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
         
 }
 
+
 int main(void)
 {
+    srand(time(NULL));
     oalpp::SoundContext ctx;
     oalpp::SoundDataBuilder builder;
     builder.fromFile("./resources/sound/Swords_battle.mp3");
     oalpp::SoundData buffer = builder.create();
     oalpp::Sound snd { buffer };
-    snd.play();
+    //snd.play();
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -65,20 +67,39 @@ int main(void)
     rect_shader.setMat4("projection", projection);
     const glm::mat4 view { 1.f };
     rect_shader.setMat4("view", view);
-    GameScreen g_scr(projection, mode, rect_shader, glm::ivec2{250, 250});
+    GameScreen g_scr(projection, mode, rect_shader, glm::ivec2{140, 100});
     
 
     glClearColor(1.f, 1.f, 1.f, 1.f);
-    
+    float now;
+    float lastTime { 0.f };
+    float deltatime { 0.f };
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
+        now = glfwGetTime();
+        deltatime = now - lastTime;
         if (snd.isPlaying()) {
             snd.update();
         }
+        if (glfwGetKey(window, GLFW_KEY_UP)) {
+            g_scr.input(GLFW_KEY_UP);
+        } else if (glfwGetKey(window, GLFW_KEY_LEFT)) {
+            g_scr.input(GLFW_KEY_LEFT);
+        } else if (glfwGetKey(window, GLFW_KEY_DOWN)) {
+            g_scr.input(GLFW_KEY_DOWN);
+        } else if (glfwGetKey(window, GLFW_KEY_RIGHT)) {
+            g_scr.input(GLFW_KEY_RIGHT);
+        }
         /* Render here */
+        
         glClear(GL_COLOR_BUFFER_BIT);
 
+        if (deltatime > 0.05f) { 
+            lastTime = now;
+            g_scr.update();
+        }
+        
         g_scr.render();
         
         

@@ -14,13 +14,17 @@ public:
     ~Rectangle();
     void render(const glm::vec2& position, const glm::vec3& color);
 
+    glm::vec2 const& get_size() { return m_size; };
+
 private:
     ShaderClass& m_rectShader;
     VAO m_vao;
+    const glm::vec2 m_size;
 };
 
 Rectangle::Rectangle(glm::vec2 const& size, ShaderClass& rectShader)
     : m_rectShader {rectShader}
+    , m_size {size}
 {
     float vertices[] = 
     {
