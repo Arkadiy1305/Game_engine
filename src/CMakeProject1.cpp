@@ -14,6 +14,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int main(void)
 {
+    srand(time(NULL));
     oalpp::SoundContext ctx;
     oalpp::SoundDataBuilder builder;
     builder.fromFile("./resources/sound/Swords_battle.mp3");
