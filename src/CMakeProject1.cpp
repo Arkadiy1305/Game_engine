@@ -65,7 +65,7 @@ int main(void)
     rect_shader.setMat4("projection", projection);
     const glm::mat4 view { 1.f };
     rect_shader.setMat4("view", view);
-    GameScreen g_scr(projection, mode, rect_shader, glm::ivec2{50, 50});
+    GameScreen g_scr(projection, mode, rect_shader, glm::ivec2{250, 250});
     
 
     glClearColor(1.f, 1.f, 1.f, 1.f);
