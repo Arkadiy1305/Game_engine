@@ -70,7 +70,7 @@ inline void GameScreen::render()
     m_shader.setMat4("model", model);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
-    m_textRender.render("Count rectangle: " + std::to_string(m_snake.get_snake_lenght()),
+    m_textRender.render(m_snake.get_apple_direction() + std::to_string(m_snake.get_snake_lenght()),
         m_left_side_info_panel + 10, m_top_side_info_panel / 2, 0.8f, glm::vec3 { 0.f, 1.f, 0.f });
 }
 

@@ -17,11 +17,7 @@ int main(void)
 {
     srand(time(NULL));
     oalpp::SoundContext ctx;
-    oalpp::SoundDataBuilder builder;
-    builder.fromFile("./resources/sound/Swords_battle.mp3");
-    oalpp::SoundData buffer = builder.create();
-    oalpp::Sound snd { buffer };
-    //snd.play();
+    
     GLFWwindow* window;
 
     /* Initialize the library */
@@ -79,9 +75,7 @@ int main(void)
     {
         now = glfwGetTime();
         deltatime = now - lastTime;
-        if (snd.isPlaying()) {
-            snd.update();
-        }
+        
         if (glfwGetKey(window, GLFW_KEY_UP)) {
             g_scr.input(GLFW_KEY_UP);
         } else if (glfwGetKey(window, GLFW_KEY_LEFT)) {
@@ -95,7 +89,7 @@ int main(void)
         
         glClear(GL_COLOR_BUFFER_BIT);
 
-        if (deltatime > 0.05f) { 
+        if (deltatime > 0.001f) { 
             lastTime = now;
             g_scr.update();
         }
