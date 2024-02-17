@@ -10,9 +10,14 @@
 void playSnd(oalpp::Sound& snd)
 { 
     snd.play();
-    while (snd.isPlaying()) {
-        snd.update();
+    try {
+        while (snd.isPlaying()) {
+            snd.update();
+        }
+    } catch (std::exception const&) {
+
     }
+    
 }
 
 using position = glm::ivec2;
@@ -97,7 +102,12 @@ inline void Snake::update() {
         if (!eat_apple()) {
             m_body.pop_back();
         } else {
-
+            snd.play();
+            try {
+                snd.update();
+            } catch (std::exception const&) {
+                std::cout << "audio Error" << '\n';
+            }
             replace_apple();
             m_snake_lenght++;
         }
