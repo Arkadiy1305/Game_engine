@@ -14,5 +14,6 @@
 #include <oalpp/sound_data.hpp>
 #include "TextRender.h"
 #include "GameScreen.h"
+#include <Eigen/Dense>
 
 // TODO: установите здесь ссылки на дополнительные заголовки, требующиеся для программы.

@@ -14,6 +14,8 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 int main(void)
 {
+    auto m { Eigen::MatrixXd::Random(100, 100) };
+    std::cout << m << '\n';
     oalpp::SoundContext ctx;
     oalpp::SoundDataBuilder builder;
     builder.fromFile("./resources/sound/Swords_battle.mp3");

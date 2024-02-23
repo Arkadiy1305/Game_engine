@@ -45,6 +45,9 @@ target_link_libraries(${PROJECT_NAME} OpenALpp_Lib)
 add_subdirectory(external/freetype)
 target_link_libraries(${PROJECT_NAME} freetype)
 
+add_subdirectory(external/eigen)
+target_link_libraries(${PROJECT_NAME} Eigen3::Eigen)
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 					COMMAND ${CMAKE_COMMAND} -E copy_directory
 					${PROJECT_SOURCE_DIR}/resources ${PROJECT_BINARY_DIR}/resources)
